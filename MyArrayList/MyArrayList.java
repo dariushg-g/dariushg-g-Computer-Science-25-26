@@ -7,6 +7,7 @@
  * Your indexed functions should throw IndexOutOfBoundsException if index is invalid!
  */
 
+
 public class MyArrayList<E> {
 
 	/* Internal Object counter */
@@ -99,8 +100,16 @@ public class MyArrayList<E> {
 
 	/* Remove the object at index and shift. Returns removed object. */
 	public E remove(int index) {
-		/* ---- YOUR CODE HERE ---- */
-		return null;
+		if (index >= this.objectCount)
+			return null;
+
+		E ret = this.internalArray[index];
+
+		for (int i = index + 1; i < objectCount; i++) {
+			this.internalArray[i - 1] = this.internalArray[i];
+		}
+
+		return ret;
 	}
 
 	/*
@@ -111,8 +120,15 @@ public class MyArrayList<E> {
 	 * if this list changed as a result of the call).
 	 */
 	public boolean remove(E obj) {
-		/* ---- YOUR CODE HERE ---- */
-		return false;
+		int index = 0;
+		for (int i = 0; i < objectCount; i++) {
+			if (obj.equals(this.internalArray[i]))
+				index = i;
+		}
+
+		if (remove(index) == null)
+			return false;
+		return true;
 	}
 
 
@@ -122,8 +138,14 @@ public class MyArrayList<E> {
 	 * element, "[X]", etc. Elements are separated by a comma and a space.
 	 */
 	public String toString() {
-		/* ---- YOUR CODE HERE ---- */
-		return "";
+		String str = "[";
+		for (int i = 0; i < this.objectCount; i++) {
+			str += this.internalArray[i].toString();
+			if (i + 1 != this.objectCount) {
+				str += ", ";
+			}
+		}
+		return str + "]";
 	}
 
 }
