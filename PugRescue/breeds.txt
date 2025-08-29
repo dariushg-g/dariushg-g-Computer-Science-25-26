@@ -1,0 +1,19 @@
+German Shepherd
+Bulldog
+Labrador Retriever
+French Bulldog
+Husky
+Beagle
+Poodle
+Chihuahua
+Dachshund
+Border Collie
+Rottweiler
+Great Dane
+Boxer
+Yorkie
+Basset Hound
+St. Bernard
+Pit Bull
+Corgi
+Cocker Spaniel
