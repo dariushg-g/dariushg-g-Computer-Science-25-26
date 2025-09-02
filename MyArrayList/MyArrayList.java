@@ -40,11 +40,15 @@ public class MyArrayList<E> {
 
 	/* Get the index-th object in the list. */
 	public E get(int index) {
+		if (index >= this.objectCount)
+			throw new IndexOutOfBoundsException();
 		return this.internalArray[index];
 	}
 
 	/* Replace the object at index with obj. returns object that was replaced. */
 	public E set(int index, E obj) {
+		if (index >= this.objectCount)
+			throw new IndexOutOfBoundsException();
 		E temp = this.internalArray[index];
 		this.internalArray[index] = obj;
 		return temp;
@@ -65,7 +69,6 @@ public class MyArrayList<E> {
 	/* Insert an object at index */
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
-
 		if (index > this.internalArray.length)
 			throw new IndexOutOfBoundsException();
 
@@ -86,28 +89,31 @@ public class MyArrayList<E> {
 	}
 
 	/* Add an object to the end of the list; returns true */
-	@SuppressWarnings("unchecked")
+	// @SuppressWarnings("unchecked")
 	public boolean add(E obj) {
 		if (this.internalArray.length > this.objectCount) {
-			this.internalArray[objectCount] = obj;
-			this.objectCount++;
+			this.internalArray[this.objectCount++] = obj;
 			return true;
 		} else {
 			add(this.objectCount, obj);
+			return true;
 		}
-		return false;
 	}
 
 	/* Remove the object at index and shift. Returns removed object. */
 	public E remove(int index) {
 		if (index >= this.objectCount)
-			return null;
+			throw new IndexOutOfBoundsException();
 
 		E ret = this.internalArray[index];
 
-		for (int i = index + 1; i < objectCount; i++) {
-			this.internalArray[i - 1] = this.internalArray[i];
+		for (int i = index; i < objectCount - 1; i++) {
+			System.out.println(this.internalArray[i]);
+			this.internalArray[i] = this.internalArray[i + 1];
 		}
+
+		this.internalArray[objectCount - 1] = null;
+		this.objectCount--;
 
 		return ret;
 	}
@@ -121,10 +127,11 @@ public class MyArrayList<E> {
 	 */
 	public boolean remove(E obj) {
 		int index = 0;
-		for (int i = 0; i < objectCount; i++) {
-			if (obj.equals(this.internalArray[i]))
+		for (int i = 0; i < objectCount; i++)
+			if (obj.equals(this.internalArray[i])) {
 				index = i;
-		}
+				break;
+			}
 
 		if (remove(index) == null)
 			return false;
@@ -140,7 +147,7 @@ public class MyArrayList<E> {
 	public String toString() {
 		String str = "[";
 		for (int i = 0; i < this.objectCount; i++) {
-			str += this.internalArray[i].toString();
+			str += this.internalArray[i] == null ? "null" : this.internalArray[i].toString();
 			if (i + 1 != this.objectCount) {
 				str += ", ";
 			}
