@@ -23,22 +23,25 @@ public class MyArrayList<E> {
 	}
 
 	/* Constructor with initial capacity */
+	// O(1)
 	@SuppressWarnings("unchecked")
 	public MyArrayList(int initialCapacity) {
 		this.internalArray = (E[]) new Object[initialCapacity];
 	}
 
 	/* Return the number of active slots in the array list */
+	// O(1)
 	public int size() {
 		return this.objectCount;
 	}
-
+	// O(1)
 	/* Are there zero objects in the array list? */
 	public boolean isEmpty() {
 		return this.objectCount == 0;
 	}
 
 	/* Get the index-th object in the list. */
+	// O(1)
 	public E get(int index) {
 		if (index >= this.objectCount)
 			throw new IndexOutOfBoundsException();
@@ -46,6 +49,7 @@ public class MyArrayList<E> {
 	}
 
 	/* Replace the object at index with obj. returns object that was replaced. */
+	// O(1)
 	public E set(int index, E obj) {
 		if (index >= this.objectCount)
 			throw new IndexOutOfBoundsException();
@@ -57,6 +61,7 @@ public class MyArrayList<E> {
 	/*
 	 * Returns true if this list contains an element equal to obj; otherwise returns false.
 	 */
+	// O(n)
 	public boolean contains(E obj) {
 		for (E val : this.internalArray) {
 			if (val.equals(obj)) {
@@ -67,6 +72,7 @@ public class MyArrayList<E> {
 	}
 
 	/* Insert an object at index */
+	// O(n) or O(n^2)
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
 		if (index > this.internalArray.length)
@@ -90,6 +96,7 @@ public class MyArrayList<E> {
 
 	/* Add an object to the end of the list; returns true */
 	// @SuppressWarnings("unchecked")
+	// O(1) or O(n) or O(n^2) 
 	public boolean add(E obj) {
 		if (this.internalArray.length > this.objectCount) {
 			this.internalArray[this.objectCount++] = obj;
@@ -101,6 +108,7 @@ public class MyArrayList<E> {
 	}
 
 	/* Remove the object at index and shift. Returns removed object. */
+	// O(n)
 	public E remove(int index) {
 		if (index >= this.objectCount)
 			throw new IndexOutOfBoundsException();
@@ -108,7 +116,7 @@ public class MyArrayList<E> {
 		E ret = this.internalArray[index];
 
 		for (int i = index; i < objectCount - 1; i++) {
-			System.out.println(this.internalArray[i]);
+			// System.out.println(this.internalArray[i]);
 			this.internalArray[i] = this.internalArray[i + 1];
 		}
 
@@ -125,6 +133,7 @@ public class MyArrayList<E> {
 	 * element exists). Returns true if this list contained the specified element (or equivalently,
 	 * if this list changed as a result of the call).
 	 */
+	// O(n)
 	public boolean remove(E obj) {
 		int index = 0;
 		for (int i = 0; i < objectCount; i++)
@@ -144,6 +153,7 @@ public class MyArrayList<E> {
 	 * elements in the ArrayList. If the array is empty, it should return "[]". If there is one
 	 * element, "[X]", etc. Elements are separated by a comma and a space.
 	 */
+	// O(1)
 	public String toString() {
 		String str = "[";
 		for (int i = 0; i < this.objectCount; i++) {
