@@ -165,14 +165,14 @@ public class MyArrayList<E> {
 	 */
 	// O(1)
 	public String toString() {
-		String str = "[";
+		StringBuilder str = new StringBuilder();
+		str.append("[");
 		for (int i = 0; i < this.objectCount; i++) {
-			str += this.internalArray[i] == null ? "null" : this.internalArray[i].toString();
+			str.append(this.internalArray[i] == null ? "null" : this.internalArray[i].toString());
 			if (i + 1 != this.objectCount) {
-				str += ", ";
+				str.append(", ");
 			}
 		}
 		return str + "]";
 	}
-
 }
