@@ -34,6 +34,7 @@ public class MyArrayList<E> {
 	public int size() {
 		return this.objectCount;
 	}
+
 	// O(1)
 	/* Are there zero objects in the array list? */
 	public boolean isEmpty() {
@@ -43,7 +44,7 @@ public class MyArrayList<E> {
 	/* Get the index-th object in the list. */
 	// O(1)
 	public E get(int index) {
-		if (index >= this.objectCount)
+		if (index >= this.objectCount || index < 0)
 			throw new IndexOutOfBoundsException();
 		return this.internalArray[index];
 	}
@@ -51,7 +52,7 @@ public class MyArrayList<E> {
 	/* Replace the object at index with obj. returns object that was replaced. */
 	// O(1)
 	public E set(int index, E obj) {
-		if (index >= this.objectCount)
+		if (index >= this.objectCount || index < 0)
 			throw new IndexOutOfBoundsException();
 		E temp = this.internalArray[index];
 		this.internalArray[index] = obj;
@@ -63,8 +64,13 @@ public class MyArrayList<E> {
 	 */
 	// O(n)
 	public boolean contains(E obj) {
-		for (E val : this.internalArray) {
-			if (val.equals(obj)) {
+		for (int i = 0; i < internalArray.length; i++) {
+			E x = this.internalArray[i];
+			if (obj == null) {
+				if (x == null) {
+					return true;
+				}
+			} else if (obj.equals(x)) {
 				return true;
 			}
 		}
@@ -75,7 +81,7 @@ public class MyArrayList<E> {
 	// O(n) or O(n^2)
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
-		if (index > this.internalArray.length)
+		if (index > this.objectCount || index < 0)
 			throw new IndexOutOfBoundsException();
 
 		if (this.internalArray.length > this.objectCount) {
@@ -85,32 +91,36 @@ public class MyArrayList<E> {
 			this.internalArray[index] = obj;
 			this.objectCount++;
 		} else {
-			E[] arr = (E[]) new Object[this.internalArray.length + 1];
-			for (int i = 0; i < this.internalArray.length; i++) {
-				arr[i] = this.internalArray[i];
+			E[] arr = (E[]) new Object[Math.max(this.internalArray.length, 1) * 2];
+			int count = 0;
+			for (int i = 0; i < this.objectCount + 1; i++) {
+				if (i == index) {
+					arr[i] = obj;
+					continue;
+				}
+				arr[i] = this.internalArray[count++];
 			}
 			this.internalArray = arr;
-			this.add(index, obj);
+			this.objectCount++;
 		}
 	}
 
 	/* Add an object to the end of the list; returns true */
 	// @SuppressWarnings("unchecked")
-	// O(1) or O(n) or O(n^2) 
+	// O(1) or O(n) or O(n^2)
 	public boolean add(E obj) {
 		if (this.internalArray.length > this.objectCount) {
 			this.internalArray[this.objectCount++] = obj;
-			return true;
 		} else {
 			add(this.objectCount, obj);
-			return true;
 		}
+		return true;
 	}
 
 	/* Remove the object at index and shift. Returns removed object. */
 	// O(n)
 	public E remove(int index) {
-		if (index >= this.objectCount)
+		if (index >= this.objectCount || index < 0)
 			throw new IndexOutOfBoundsException();
 
 		E ret = this.internalArray[index];

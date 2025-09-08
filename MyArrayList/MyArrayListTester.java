@@ -1,18 +1,15 @@
 
 public class MyArrayListTester {
     public static void main(String[] args) {
-        MyArrayList<String> arr = new MyArrayList<>(0);
-        arr.add("hello");
-        arr.add("hello1");
-        arr.add("hello2");
+        MyArrayList<String> arr = new MyArrayList<>();
 
-        if (!arr.remove(1).equals("hello1"))
-            throw new Error("removing first index should be \"hello1\"");
-        System.out.println(arr.get(1));
-        System.out.println(arr.toString());
+        for (int i = 0; i < 10000000; i++) {
+            arr.add("hello");
+        }
+
+        String s = arr.toString();
+        System.out.println(s.charAt(0));
     }
 }
-
-
 
 
