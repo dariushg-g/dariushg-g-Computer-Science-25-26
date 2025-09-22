@@ -5,6 +5,8 @@ public class SinglyLinkedListTester {
         linked_list.add("hello");
         linked_list.add("world");
 
-        System.out.println(linked_list.get(0));
+
+        System.out.println(linked_list.toString());
+        System.out.println(linked_list.indexOf("world"));
     }
 }
