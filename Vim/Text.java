@@ -7,8 +7,12 @@ public class Text {
     // Anything that would delete the sentinel is simply not executed
     public Text() {
         this.SENTINEL = new CharNode();
+        this.SENTINEL.setNext(SENTINEL);
+        this.SENTINEL.setPrevious(SENTINEL);
         this.cursor = SENTINEL;
-        this.clipboardSentinel = null;
+        this.clipboardSentinel = new CharNode();
+        this.clipboardSentinel.setNext(this.clipboardSentinel);
+        this.clipboardSentinel.setPrevious(this.clipboardSentinel);
     }
 
     public CharNode getHead() {
@@ -21,24 +25,26 @@ public class Text {
 
     // Move cursor right
     public void moveCursorRight() {
-        this.cursor = this.cursor.getNext();
+        this.cursor = this.cursor.getNext() == this.SENTINEL ? this.cursor : this.cursor.getNext();
     }
 
     // Move cursor left
     public void moveCursorLeft() {
-        this.cursor = this.cursor.getPrevious();
+        this.cursor = this.cursor.getPrevious() == this.SENTINEL ? this.cursor
+                : this.cursor.getPrevious();
     }
 
     // Move cursor to start of line
     // (each '\n' newline is the last char in its line)
     public void moveCursorToStartOfLine() {
-        while (this.cursor.getLetter() != '\n')
+        while (this.cursor != this.SENTINEL
+                && this.cursor.getLetter() != '\n')
             this.cursor = this.cursor.getPrevious();
     }
 
     // Move cursor to end of line (i.e. to the newline char in its line)
     public void moveCursorToEndOfLine() {
-        while (this.cursor.getLetter() != '\n')
+        while (this.cursor != this.SENTINEL && this.cursor.getLetter() != '\n')
             this.cursor = this.cursor.getNext();
     }
 
@@ -55,44 +61,65 @@ public class Text {
     // Insert a single char before cursor
     public void insertBeforeCursor(char c) {
         CharNode inst = new CharNode(c);
-        this.cursor.setPrevious(inst);
+        CharNode prev = cursor.getPrevious();
+
+        prev.setNext(inst);
+        inst.setPrevious(prev);
         inst.setNext(this.cursor);
+        cursor.setPrevious(inst);
+        this.cursor = prev;
     }
 
     // Insert the String of chars before cursor
     public void insertBeforeCursor(String s) {
+        CharNode post = this.cursor;
         CharNode prev = this.cursor.getPrevious();
         for (char c : s.toCharArray()) {
             CharNode inst = new CharNode(c);
-            inst.setPrevious(prev);
+
             prev.setNext(inst);
+            inst.setPrevious(prev);
+            inst.setNext(post);
+            post.setPrevious(inst);
             prev = inst;
         }
-        prev = this.cursor;
+        this.cursor = prev;
     }
 
     // Insert a single char after cursor
     public void insertAfterCursor(char c) {
         CharNode inst = new CharNode(c);
+        CharNode post = this.cursor.getNext();
+
         this.cursor.setNext(inst);
         inst.setPrevious(this.cursor);
+        inst.setNext(post);
+        post.setPrevious(inst);
+        this.cursor = post;
     }
 
     // Insert a String of chars after cursor
     public void insertAfterCursor(String s) {
         CharNode next = this.cursor.getNext();
+        CharNode prev = this.cursor;
         for (char c : s.toCharArray()) {
             CharNode inst = new CharNode(c);
+
+            prev.setNext(inst);
+            inst.setPrevious(prev);
             inst.setNext(next);
             next.setPrevious(inst);
-            next = inst;
+            prev = inst;
         }
-        next = this.cursor;
+        this.cursor = next;
     }
 
     // Replace the char under the cursor with the given char
     public void replaceUnderCursor(char c) {
-        this.cursor.setLetter(c);
+        if (this.cursor != this.SENTINEL && cursor.getLetter() != '\n')
+            this.cursor.setLetter(c);
+        else
+            this.insertAfterCursor(c);
     }
 
     // Replace the letter under the cursor with the first letter of s,
@@ -101,8 +128,27 @@ public class Text {
     // etc.
     // Cursor should end on final char of replacement
     public void replaceUnderCursor(String s) {
-        insertAfterCursor(s);
-        this.cursor.getPrevious().setNext(this.cursor.getNext());
+        if (this.cursor == this.SENTINEL)
+            return;
+        CharNode cur = this.cursor;
+        int count = 0;
+
+        while (count < s.length() && this.SENTINEL != cur && cur.getLetter() != '\n') {
+            cur.setLetter(s.charAt(count));
+            cur = cur.getNext();
+            count++;
+        }
+
+        while (count < s.length()) {
+            CharNode n = new CharNode(s.charAt(count));
+            count++;
+            CharNode left = cur.getPrevious();
+            left.setNext(n);
+            n.setPrevious(left);
+            n.setNext(cur);
+            cur.setPrevious(n);
+        }
+        cursor = cur.getPrevious();
     }
 
     // Delete character under cursor; cursor moves to next char
@@ -149,7 +195,7 @@ public class Text {
     public void pasteLine() {
         this.moveCursorToStartOfLine();
         CharNode node = this.clipboardSentinel.getNext();
-        while (node != null) {
+        while (node != this.clipboardSentinel) {
             this.insertAfterCursor(node.getLetter());
             node = node.getNext();
         }
@@ -157,8 +203,10 @@ public class Text {
 
     public String toString() {
         CharNode node = this.SENTINEL.getNext();
+        if (node == null)
+            return "";
         StringBuilder str = new StringBuilder();
-        while (node != null) {
+        while (node != this.SENTINEL) {
             str.append(node.toString());
             node = node.getNext();
         }
@@ -166,3 +214,4 @@ public class Text {
     }
 
 }
+

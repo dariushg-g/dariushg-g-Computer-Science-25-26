@@ -5,14 +5,14 @@ import java.io.InputStreamReader;
 public class Vim {
 
     private Text text;
-    private boolean inEditMode;
     private char editMode;
+    private StringBuilder editStringBuilder;
     private boolean shouldExit;
 
     public Vim() {
         this.text = new Text();
-        this.inEditMode = false;
         this.editMode = '\0';
+        this.editStringBuilder = new StringBuilder("");
         this.shouldExit = false;
     }
 
@@ -20,8 +20,8 @@ public class Vim {
         BufferedReader kb = new BufferedReader(new InputStreamReader(System.in));
         while (!shouldExit) {
             char input = (char) kb.read();
-            if (!inEditMode) {
-                processChar(input);
+            if (editMode == '\0') {
+                processCommand(input);
             } else {
                 processEdit(input);
             }
@@ -29,76 +29,76 @@ public class Vim {
         kb.close();
     }
 
-    private void processChar(char input) {
+    // Should print out what you think it should print out ;-)
+    private void processCommand(char input) {
+        // NOTE: 'h', 'i', 'q', and 'w' have already been coded
+        // as an example to demonstrate
+        // You must code the rest yourself.
         switch (input) {
             case 'h':
-                this.text.moveCursorLeft();
+                // Move cursor left
+                text.moveCursorLeft();
                 break;
             case 'l':
-                this.text.moveCursorRight();
+                // Move cursor right
+                text.moveCursorRight();
                 break;
             case 'j':
                 // Move cursor down
                 // It moves down to the FIRST character in the next line
                 // (**note: normally this is not how it works in Vim**)
-                this.text.moveCursorToEndOfLine();
-                this.text.moveCursorRight();
-                this.text.moveCursorRight();
+                text.moveCursorToEndOfLine();
+                text.moveCursorRight();
                 break;
             case 'k':
                 // Move cursor up
                 // It moves up to the FIRST character in the above line
                 // (**note: normally this is not how it works in Vim**)
-                this.text.moveCursorToStartOfLine();
-                this.text.moveCursorLeft();
-                this.text.moveCursorLeft();
-                this.text.moveCursorToStartOfLine();
-                break;
+                text.moveCursorToStartOfLine();
+                text.moveCursorLeft();
+                text.moveCursorToStartOfLine();
             case '0':
                 // Move cursor to start of line
                 // (each '\n' newline is the last char in its line
-                this.text.moveCursorToStartOfLine();
+                text.moveCursorToStartOfLine();
                 break;
             case '$':
                 // Move cursor to end of line (i.e. to the newline char in its line)
-                this.text.moveCursorToEndOfLine();
+                text.moveCursorToEndOfLine();
                 break;
             case 'g':
                 // Move cursor to start of text
-                this.text.moveCursorToStartOfText();
+                text.moveCursorToStartOfText();
                 break;
             case 'G':
-                this.text.moveCursorToEndOfText();
                 // Move cursor to end of text
+                text.moveCursorToEndOfText();
                 break;
             case 'i':
                 // Insert text before cursor, until '^' character is input
                 // Cursor moves to end of new text
-                this.editMode = 'i';
-                this.inEditMode = true;
-
+                editMode = 'i';
                 break;
             case 'a':
                 // Append text after cursor, until '^' character is input
-                this.editMode = 'a';
-                this.inEditMode = true;
-                this.text.moveCursorRight();
+                // Cursor moves to end of new text
+                editMode = 'a';
                 break;
             case 'o':
                 // Create new line after current line, and add text there until '^' is input
                 // Cursor moves to end of new text
-                this.text.moveCursorToEndOfLine();
-                this.text.moveCursorRight();
-                this.text.insertAfterCursor('\n');
-                this.editMode = 'o';
-                this.inEditMode = true;
+                text.moveCursorToEndOfLine();
+                text.insertAfterCursor('\n');
+                text.moveCursorRight();
+                editMode = 'o';
                 break;
             case 'O':
-                this.text.moveCursorToStartOfLine();
-                this.text.moveCursorLeft();
-                this.text.insertAfterCursor('\n');
-                this.editMode = 'o';
-                this.inEditMode = true;
+                // Same as above, but BEFORE current line
+                // Cursor moves to end of new text
+                text.moveCursorToStartOfLine();
+                text.insertBeforeCursor('\n');
+                text.moveCursorLeft();
+                editMode = 'O';
                 break;
             case 'R':
                 // Replace letters under cursor until '^' is input
@@ -107,23 +107,24 @@ public class Vim {
                 // instead add new letters if you run out of space
                 // in the current line
                 // Cursor should end on final char of replacement
-                this.text.replaceUnderCursor(input);
-                this.text.moveCursorRight();
+                editMode = 'R';
                 break;
             case 'x':
                 // Delete character under cursor; cursor moves to next char
-                this.text.deleteUnderCursor();
+                editMode = 'x';
+                text.deleteUnderCursor();
                 break;
             case 'D':
                 // Deletes the remainder of the line (except for the newline), starting with the
                 // current cursor position
                 // Cursor is now on the last remaining character in the line
-                this.text.deleteRemainderOfLine();
+                text.deleteRemainderOfLine();
                 break;
             case 'd':
                 // Delete entire current line (including the newline)
                 // Cursor moves to beginning of next line
-                this.text.deleteEntireLine();
+                text.deleteEntireLine();
+                text.moveCursorToStartOfLine();
                 break;
             case 'y':
                 // Yank/cut the entire current line into clipboard
@@ -131,36 +132,64 @@ public class Vim {
                 // Clipboard contains a sentinel for a list of CharNodes that
                 // is the line
                 // Cursor moves to beginning of next line
-                this.text.cutLine();
+                text.cutLine();
                 break;
             case 'p':
-                this.text.pasteLine();
+                // Paste the line from the clipboard after the current line
+                text.pasteLine();
                 break;
             case 'q':
-                this.shouldExit = true;
                 // Quit and print the text
+                shouldExit = true;
+                // Note how there is no "break;" here:
+                // that makes it so that the next case gets executed as well
+            case 'w':
+                // Write the text out (i.e. print the text)
+                System.out.println(text);
                 break;
             default:
-                this.processEdit(input);
+
         }
     }
 
     private void processEdit(char input) {
-        switch (editMode) {
-            case 'i':
-                this.text.insertBeforeCursor(input);
-            case 'a':
-                this.text.insertAfterCursor(input);
-            case 'o':
-                this.text.insertAfterCursor(input);
-            case 'O':
-                this.text.insertAfterCursor(input);
-            case 'R':
-                this.text.replaceUnderCursor(input);
-            default:
-                if (input == 27)
-                    this.inEditMode = false;
+
+        // 'i' has been coded as an example
+        // You must code the remaining insertModes
+        // If you're feeling fancy and would like to learn more about
+        // switch statements and how to take advantage of desired behavior
+
+        if (input == '^') {
+            String editString = editStringBuilder.toString();
+            switch (editMode) {
+                case 'i':
+                    text.insertBeforeCursor(editString);
+                    break;
+                case 'a':
+                    text.insertAfterCursor(editString);
+                    break;
+                case 'o':
+                    text.insertBeforeCursor(editString);
+                    break;
+                case 'O':
+                    text.insertBeforeCursor(editString);
+                    break;
+                case 'R':
+                    text.replaceUnderCursor(editString);
+                    break;
+                default:
+                    System.out.println(text.toString());
+            }
+
+            // Clear the edit mode and the edit String
+            editMode = '\0';
+            editStringBuilder.setLength(0);
+            return;
         }
+
+        // Otherwise just add the new letter to the end of the String we're editing
+        editStringBuilder.append(input);
+
     }
 
 }
