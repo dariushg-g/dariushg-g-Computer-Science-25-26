@@ -3,11 +3,10 @@ public class Recursion {
 	// Prints the value of every node in the singly linked list with the given head,
 	// but in reverse
 	public static void printListInReverse(ListNode head) {
-		var str = new StringBuilder();
-		var node = head;
-		while (node != null) {
-			str.insert(0, node.getValue().toString());
-		}
+		if (head == null)
+			return;
+		printListInReverse(head.getNext());
+		System.out.println(head.getValue().toString() + " ");
 	}
 
 	// For the given 2D array of Strings, replaces the String at index[r][c]
@@ -19,7 +18,13 @@ public class Recursion {
 	// Trying to infect outside the confines of the grid also has no effect
 	// Precondition: grid has no null entries
 	public static void infect(String[][] grid, int r, int c) {
-
+		if (grid[r][c].equals("vaccinated") || grid[r][c].equals("infected"))
+			return;
+		grid[r][c] = "infected";
+		infect(grid, Math.max(r - 1, 0), c);
+		infect(grid, Math.min(r + 1, grid.length - 1), c);
+		infect(grid, r, Math.min(c + 1, grid[0].length - 1));
+		infect(grid, r, Math.max(c - 1, 0));
 	}
 
 	// How many subsets are there of the numbers 1...n
@@ -30,7 +35,9 @@ public class Recursion {
 	// {1,2}, {2,3}, {3,4}, {1,2,3}, {1,2,4}, {1,3,4}, {1,2,3,4}
 	// Precondition: n > 0
 	public static long countNonConsecutiveSubsets(int n) {
-
+		if (n <= 2)
+			return n + 1;
+		return countNonConsecutiveSubsets(n - 1) + countNonConsecutiveSubsets(n - 2);
 	}
 
 	// A kid at the bottom of the stairs can jump up 1, 2, or 3 stairs at a time.
@@ -38,7 +45,12 @@ public class Recursion {
 	// Jumping 1-1-2 is considered different than jumping 1-2-1
 	// Precondition: n > 0
 	public static long countWaysToJumpUpStairs(int n) {
-
+		if (n <= 2)
+			return n;
+		if (n == 3)
+			return 4;
+		return countWaysToJumpUpStairs(n - 1) + countWaysToJumpUpStairs(n - 2)
+				+ countWaysToJumpUpStairs(n - 3);
 	}
 
 	// Everything above this line does NOT require a recursive helper method
@@ -54,6 +66,19 @@ public class Recursion {
 	// "bc", "abc"
 	// Order is your choice
 	public static void printSubsets(String str) {
+		printSubsetsHelper(0, str.length() - 1, str);
+		for (var c : str.toCharArray())
+			System.out.println(c);
+	}
+
+	// takes the start index, end index and string and converges at different rates to print out the
+	// string's subsets
+	public static void printSubsetsHelper(int a, int b, String str) {
+		if (a == b)
+			return;
+		System.out.println(str.substring(a, b + 1));
+		printSubsetsHelper(a + 1, b, str);
+		printSubsetsHelper(a, b - 1, str);
 
 	}
 
