@@ -66,21 +66,45 @@ public class Recursion {
 	// "bc", "abc"
 	// Order is your choice
 	public static void printSubsets(String str) {
-		printSubsetsHelper(0, str.length() - 1, str);
-		for (var c : str.toCharArray())
+		printSubsetsHelper("", 0, str);
+		for (var c : str.toCharArray()) {
 			System.out.println(c);
+		}
 	}
 
-	// takes the start index, end index and string and converges at different rates to print out the
-	// string's subsets
-	public static void printSubsetsHelper(int a, int b, String str) {
-		if (a == b)
+	// takes in a string c, an int i and a string str. It prints string c with the
+	// index i of str
+	// appended to the end. It then recursively calls itself, one time with c added
+	// to the char at i
+	// in str, adding 1 to i, and once with the same c, iterating i as well.
+	// For example: printSubsetsHelper("", 0, "abc") would do:
+	// printSubsetsHelper("a", 1, "abc") then printSubsetsHelper("", 1, "abc")
+	// which would branch to do printSubsetsHelper("ab", 2, "abc") and
+	// printSubsetsHelper("", 2,
+	// "abc")
+	// Since the last line of the function does not change c, the first char of the
+	// string is
+	// eventually added with the others.
+	// for the line directly above it, it adds to c, allowing us to get essentially
+	// all the prints
+	// of printSubsetsHelper(.., "bc") added with the first letter str
+	public static void printSubsetsHelper(String c, int i, String str) {
+		if (i == str.length()) {
 			return;
-		System.out.println(str.substring(a, b + 1));
-		printSubsetsHelper(a + 1, b, str);
-		printSubsetsHelper(a, b - 1, str);
-
+		}
+		if (c.length() > 0) {
+			System.out.println(c + str.charAt(i));
+		}
+		printSubsetsHelper(c + str.charAt(i), i + 1, str);
+		printSubsetsHelper(c, i + 1, str);
 	}
+
+	// a b c
+	// a b c
+	// b a c
+	// c b a
+	// b a c
+	//
 
 	// List contains a single String to start.
 	// Prints all the permutations of str on separate lines
@@ -89,7 +113,23 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 	public static void printPermutations(String str) {
+		printPermutationsHelper(str, 0, str);
+	}
 
+	// iterates through s and swaps all chars with the c+1'th index keeping c constant and prints it out once everything is constant
+	public static void printPermutationsHelper(String s, int c, String str) {
+		if (c == str.length()) {
+			System.out.println(s);
+			return;
+		}
+
+		for (int i = c; i < s.length(); i++) {
+			var tempStr = s.toCharArray();
+			var temp = tempStr[c];
+			tempStr[c] = tempStr[i];
+			tempStr[i] = temp;
+			printPermutationsHelper(new String(tempStr), c + 1, str);
+		}
 	}
 
 	// Performs a mergeSort on the given array of ints
@@ -135,7 +175,7 @@ public class Recursion {
 	// time 9
 	// for a total of 20 points, so it would return 20.
 	public static int scavHunt(int[] times, int[] points) {
-
+		return 0;
 	}
 
 }

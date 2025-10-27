@@ -20,6 +20,8 @@ public class RecursionTest {
 
         // System.out.println(Recursion.countWaysToJumpUpStairs(4));
 
-        Recursion.printSubsets("hello");
+        // Recursion.printSubsets("abc");
+
+        Recursion.printPermutations("abcd");
     }
 }
