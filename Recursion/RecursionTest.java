@@ -9,19 +9,26 @@ public class RecursionTest {
         // node1.setNext(node2);
         // Recursion.printListInReverse(node);
 
-        // String grid[][] = {{"0", "0", "0"}, {"0", "vaccinated", "0"}, {"0", "0", "0"},};
+        // String grid[][] = {{"0", "0", "0"}, {"0", "vaccinated", "0"}, {"0", "0",
+        // "0"},};
         // Recursion.infect(grid, 1, 1);
         // for (int i = 0; i < grid.length; i++) {
-        //     for (int j = 0; j < grid.length; j++) {
-        //         System.out.print(grid[i][j] + " ");
-        //     }
-        //     System.out.println();
+        // for (int j = 0; j < grid.length; j++) {
+        // System.out.print(grid[i][j] + " ");
+        // }
+        // System.out.println();
         // }
 
         // System.out.println(Recursion.countWaysToJumpUpStairs(4));
 
         // Recursion.printSubsets("abc");
 
-        Recursion.printPermutations("abcd");
+        // Recursion.printPermutations("abcd");
+
+        int list[] = { 10, 2, 3, 5, 1 };
+        Recursion.mergeSort(list);
+        for (var i : list) {
+            System.out.print(i + " ");
+        }
     }
 }

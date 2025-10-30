@@ -72,22 +72,7 @@ public class Recursion {
 		}
 	}
 
-	// takes in a string c, an int i and a string str. It prints string c with the
-	// index i of str
-	// appended to the end. It then recursively calls itself, one time with c added
-	// to the char at i
-	// in str, adding 1 to i, and once with the same c, iterating i as well.
-	// For example: printSubsetsHelper("", 0, "abc") would do:
-	// printSubsetsHelper("a", 1, "abc") then printSubsetsHelper("", 1, "abc")
-	// which would branch to do printSubsetsHelper("ab", 2, "abc") and
-	// printSubsetsHelper("", 2,
-	// "abc")
-	// Since the last line of the function does not change c, the first char of the
-	// string is
-	// eventually added with the others.
-	// for the line directly above it, it adds to c, allowing us to get essentially
-	// all the prints
-	// of printSubsetsHelper(.., "bc") added with the first letter str
+	// prints subsets of str, printing c with index i of str
 	public static void printSubsetsHelper(String c, int i, String str) {
 		if (i == str.length()) {
 			return;
@@ -113,12 +98,12 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 	public static void printPermutations(String str) {
-		printPermutationsHelper(str, 0, str);
+		printPermutationsHelper(str, 0);
 	}
 
-	// iterates through s and swaps all chars with the c+1'th index keeping c constant and prints it out once everything is constant
-	public static void printPermutationsHelper(String s, int c, String str) {
-		if (c == str.length()) {
+	// prints all permutations of s keeping indices 0-c constant
+	public static void printPermutationsHelper(String s, int c) {
+		if (c == s.length()) {
 			System.out.println(s);
 			return;
 		}
@@ -128,14 +113,21 @@ public class Recursion {
 			var temp = tempStr[c];
 			tempStr[c] = tempStr[i];
 			tempStr[i] = temp;
-			printPermutationsHelper(new String(tempStr), c + 1, str);
+			printPermutationsHelper(new String(tempStr), c + 1);
 		}
 	}
 
 	// Performs a mergeSort on the given array of ints
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void mergeSort(int[] ints) {
+		mergeSortHelper(0, ints.length - 1, ints.length / 2, ints);
+	}
 
+	public static void mergeSortHelper(int a, int b, int m, int[] ints) {
+		if (b < a) {
+			mergeSortHelper(a, m, (a + m) / 2, ints);
+			mergeSortHelper(m + 1, b, (b + m) / 2, ints);
+		}
 	}
 
 	// Performs a quickSort on the given array of ints
