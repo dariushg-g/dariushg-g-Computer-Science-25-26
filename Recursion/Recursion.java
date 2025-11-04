@@ -73,13 +73,11 @@ public class Recursion {
 	}
 
 	// prints subsets of str, printing c with index i of str
-	public static void printSubsetsHelper(String c, int i, String str) {
-		if (i == str.length()) {
+	private static void printSubsetsHelper(String c, int i, String str) {
+		if (i == str.length())
 			return;
-		}
-		if (c.length() > 0) {
+		if (c.length() > 0)
 			System.out.println(c + str.charAt(i));
-		}
 		printSubsetsHelper(c + str.charAt(i), i + 1, str);
 		printSubsetsHelper(c, i + 1, str);
 	}
@@ -102,7 +100,7 @@ public class Recursion {
 	}
 
 	// prints all permutations of s keeping indices 0-c constant
-	public static void printPermutationsHelper(String s, int c) {
+	private static void printPermutationsHelper(String s, int c) {
 		if (c == s.length()) {
 			System.out.println(s);
 			return;
@@ -120,15 +118,45 @@ public class Recursion {
 	// Performs a mergeSort on the given array of ints
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void mergeSort(int[] ints) {
-		mergeSortHelper(0, ints.length - 1, ints.length / 2, ints);
+		mergeSortHelper(0, ints.length - 1, ints);
 	}
 
-	public static void mergeSortHelper(int a, int b, int m, int[] ints) {
-		if (b < a) {
-			mergeSortHelper(a, m, (a + m) / 2, ints);
-			mergeSortHelper(m + 1, b, (b + m) / 2, ints);
+	private static void mergeSortHelper(int a, int b, int ints[]) {
+		if (a < b) {
+			int m = (a + b) / 2;
+			System.out.println(b);
+			
+			mergeSortHelper(a, m, ints);
+			mergeSortHelper(m + 1, b, ints);
+			merge(a, b, m, ints);
 		}
 	}
+
+	private static void merge(int a, int b, int m, int ints[]) {
+		var l1 = m - a + 1;
+		var l2 = b - m;
+		var L1 = new int[l1];
+		var L2 = new int[l2];
+
+		for (int i = 0; i < L1.length; i++)
+			L1[i] = ints[i + a];
+		for (int i = 0; i < L2.length; i++)
+			L2[i] = ints[i + m + 1];
+
+		int i = 0, j = 0, k = a;
+		while (i < L1.length && j < L2.length) {
+			if (L1[i] < L2[j]) {
+				ints[k++] = L1[i++];
+			} else {
+				ints[k++] = L2[j++];
+			}
+		}
+		while (i < L1.length)
+			ints[k++] = L1[i++];
+		while (i < L2.length)
+			ints[k++] = L1[j++];
+	}
+
 
 	// Performs a quickSort on the given array of ints
 	// Use the middle element (index n/2) as the pivot
