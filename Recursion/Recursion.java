@@ -125,7 +125,7 @@ public class Recursion {
 		if (a < b) {
 			int m = (a + b) / 2;
 			System.out.println(b);
-			
+
 			mergeSortHelper(a, m, ints);
 			mergeSortHelper(m + 1, b, ints);
 			merge(a, b, m, ints);
@@ -133,24 +133,18 @@ public class Recursion {
 	}
 
 	private static void merge(int a, int b, int m, int ints[]) {
-		var l1 = m - a + 1;
-		var l2 = b - m;
-		var L1 = new int[l1];
-		var L2 = new int[l2];
-
+		int l1 = m - a + 1, l2 = b - m;
+		int[] L1 = new int[l1], L2 = new int[l2];
 		for (int i = 0; i < L1.length; i++)
 			L1[i] = ints[i + a];
 		for (int i = 0; i < L2.length; i++)
 			L2[i] = ints[i + m + 1];
-
 		int i = 0, j = 0, k = a;
-		while (i < L1.length && j < L2.length) {
-			if (L1[i] < L2[j]) {
+		while (i < L1.length && j < L2.length)
+			if (L1[i] < L2[j])
 				ints[k++] = L1[i++];
-			} else {
+			else
 				ints[k++] = L2[j++];
-			}
-		}
 		while (i < L1.length)
 			ints[k++] = L1[i++];
 		while (i < L2.length)
@@ -162,7 +156,25 @@ public class Recursion {
 	// Use the middle element (index n/2) as the pivot
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
+		quickSortHelper(ints.length / 2, 0, ints.length, ints);
+	}
 
+	private static void quickSortHelper(int pivot, int a, int b, int[] ints) {
+		if (b - a < 1)
+			return;
+		var piv = ints[pivot];
+		int i = a - 1, j = a - 1;
+		while (++j < b)
+			if (ints[j] < piv) {
+				var temp = ints[++i];
+				ints[i] = ints[j];
+				ints[j] = temp;
+			}
+		var temp = ints[++i];
+		ints[pivot] = temp;
+		ints[i] = piv;
+		quickSortHelper((pivot + a) / 2, a, pivot, ints);
+		quickSortHelper((pivot + b + 1) / 2, pivot + 1, b, ints);
 	}
 
 	// Prints a sequence of moves (one on each line)
@@ -171,7 +183,30 @@ public class Recursion {
 	// The towers are number 0, 1, 2, and each move should be of
 	// the form "1 -> 2", meaning "take the top disk of tower 1 and
 	// put it on tower 2" etc.
+
+	enum Peg {
+		ZERO, ONE, TWO;
+
+		@Override
+		public String toString() {
+			switch (this) {
+				case ZERO:
+					return "0";
+				case ONE:
+					return "1";
+				default:
+					return "2";
+			}
+		}
+	}
+
 	public static void solveHanoi(int startingDisks) {
+		solveHanoiHelper(startingDisks, Peg.ZERO, Peg.ONE, Peg.TWO);
+	}
+
+	private static void solveHanoiHelper(int curr, Peg p0, Peg p1, Peg p2) {
+		if (curr == 0)
+			return;
 
 	}
 
@@ -195,7 +230,12 @@ public class Recursion {
 	// time 9
 	// for a total of 20 points, so it would return 20.
 	public static int scavHunt(int[] times, int[] points) {
-		return 0;
+		return scavHuntHelper(0, times, points);
+	}
+
+	private static int scavHuntHelper(int max, int[] times, int[] points) {
+
+		return scavHuntHelper(max, times, points);
 	}
 
 }

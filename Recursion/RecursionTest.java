@@ -25,10 +25,13 @@ public class RecursionTest {
 
         // Recursion.printPermutations("abcd");
 
-        int list[] = { 10, 2, 3, 5, 1 };
-        Recursion.mergeSort(list);
-        for (var i : list) {
-            System.out.print(i + " ");
-        }
+        // int list[] = { 100, 4, 3, 2, 1, 7, 210 };
+        // Recursion.mergeSort(list);
+        // Recursion.quickSort(list);
+        // for (var i : list) {
+        //     System.out.print(i + " ");
+        // }
+
+        Recursion.solveHanoi(3);
     }
 }

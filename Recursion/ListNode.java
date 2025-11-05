@@ -14,11 +14,21 @@ public class ListNode {
     next = nx;
   }
 
-  public Object getValue() { return value; }
-  public ListNode getNext() { return next; }
+  public Object getValue() {
+    return value;
+  }
 
-  public void setValue(Object v) { value = v; }
-  public void setNext(ListNode nx) { next = nx; }
+  public ListNode getNext() {
+    return next;
+  }
+
+  public void setValue(Object v) {
+    value = v;
+  }
+
+  public void setNext(ListNode nx) {
+    next = nx;
+  }
 }
 
 
