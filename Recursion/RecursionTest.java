@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class RecursionTest {
     public static void main(String[] args) {
@@ -29,9 +30,19 @@ public class RecursionTest {
         // Recursion.mergeSort(list);
         // Recursion.quickSort(list);
         // for (var i : list) {
-        //     System.out.print(i + " ");
+        // System.out.print(i + " ");
         // }
 
-        Recursion.solveHanoi(3);
+        // Recursion.solveHanoi(3);
+
+        // var list = new ArrayList<String>();
+        // list.add("hello0");
+        // list.add("hello1");
+        // var x = list.stream().map(str -> str.substring(5)).toList();
+        // System.out.println(x);
+
+        System.out.println(Recursion.scavHunt(new int[] {3, 7, 9}, new int[] {10, 15, 10}));
+        System.out.println(Recursion.scavHunt(new int[] {1, 5, 7, 8, 10, 13, 14, 15},
+                new int[] {7, 8, 3, 10, 5, 6, 8, 7}));
     }
 }

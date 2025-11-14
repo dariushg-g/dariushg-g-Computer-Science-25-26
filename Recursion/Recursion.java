@@ -187,27 +187,25 @@ public class Recursion {
 	enum Peg {
 		ZERO, ONE, TWO;
 
-		@Override
 		public String toString() {
-			switch (this) {
-				case ZERO:
-					return "0";
-				case ONE:
-					return "1";
-				default:
-					return "2";
-			}
+			return switch (this) {
+				case ZERO -> "0";
+				case ONE -> "1";
+				case TWO -> "2";
+			};
 		}
 	}
 
 	public static void solveHanoi(int startingDisks) {
-		solveHanoiHelper(startingDisks, Peg.ZERO, Peg.ONE, Peg.TWO);
+		solveHanoiHelper(startingDisks, Peg.ZERO, Peg.ONE, Peg.TWO, startingDisks);
 	}
 
-	private static void solveHanoiHelper(int curr, Peg p0, Peg p1, Peg p2) {
+	private static void solveHanoiHelper(int curr, Peg p0, Peg p1, Peg p2, int startingDisks) {
 		if (curr == 0)
 			return;
-
+		solveHanoiHelper(curr - 1, p0, p2, p1, startingDisks);
+		System.out.println(p0 + "->" + p1);
+		solveHanoiHelper(curr - 1, p2, p1, p0, startingDisks);
 	}
 
 	// You are partaking in a scavenger hunt!
@@ -233,9 +231,21 @@ public class Recursion {
 		return scavHuntHelper(0, times, points);
 	}
 
-	private static int scavHuntHelper(int max, int[] times, int[] points) {
-
-		return scavHuntHelper(max, times, points);
+	// returns the larger value between points[curr] + scavhunt for next time at least 5 mins away
+	// and scavhunt of the next index
+	private static int scavHuntHelper(int curr, int[] times, int[] points) {
+		if (curr >= times.length)
+			return 0;
+		return Math.max(
+				points[curr] + scavHuntHelper(get_index_of_5_away(curr, times), times, points),
+				scavHuntHelper(curr + 1, times, points));
 	}
 
+	// returns the nearest index from times that is not within 5 of the time of the given index curr
+	private static int get_index_of_5_away(int curr, int[] times) {
+		var i = curr;
+		while (i < times.length && times[i] - times[curr] < 5)
+			i++;
+		return i;
+	}
 }
