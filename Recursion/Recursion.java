@@ -6,7 +6,7 @@ public class Recursion {
 		if (head == null)
 			return;
 		printListInReverse(head.getNext());
-		System.out.println(head.getValue().toString() + " ");
+		System.out.println(head.getValue().toString());
 	}
 
 	// For the given 2D array of Strings, replaces the String at index[r][c]
@@ -70,6 +70,7 @@ public class Recursion {
 		for (var c : str.toCharArray()) {
 			System.out.println(c);
 		}
+		System.out.println("");
 	}
 
 	// prints subsets of str, printing c with index i of str
@@ -105,7 +106,6 @@ public class Recursion {
 			System.out.println(s);
 			return;
 		}
-
 		for (int i = c; i < s.length(); i++) {
 			var tempStr = s.toCharArray();
 			var temp = tempStr[c];
@@ -125,13 +125,13 @@ public class Recursion {
 		if (a < b) {
 			int m = (a + b) / 2;
 			System.out.println(b);
-
 			mergeSortHelper(a, m, ints);
 			mergeSortHelper(m + 1, b, ints);
 			merge(a, b, m, ints);
 		}
 	}
 
+	// merges the two sorted subarrays from a<->m and m+1<->b back into ints where m is (a + b) / 2
 	private static void merge(int a, int b, int m, int ints[]) {
 		int l1 = m - a + 1, l2 = b - m;
 		int[] L1 = new int[l1], L2 = new int[l2];
@@ -147,8 +147,8 @@ public class Recursion {
 				ints[k++] = L2[j++];
 		while (i < L1.length)
 			ints[k++] = L1[i++];
-		while (i < L2.length)
-			ints[k++] = L1[j++];
+		while (j < L2.length)
+			ints[k++] = L2[j++];
 	}
 
 
@@ -156,26 +156,41 @@ public class Recursion {
 	// Use the middle element (index n/2) as the pivot
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
-		quickSortHelper(ints.length / 2, 0, ints.length, ints);
+		quickSortHelper(0, ints.length - 1, ints);
 	}
 
-	private static void quickSortHelper(int pivot, int a, int b, int[] ints) {
-		if (b - a < 1)
+	// quick sorts from index a to b in ints by iterating two pointers from each side a and b - 1
+	// and then swapping indices in ints until all values are matched in order in relation to
+	// ints[(a + b) / 2]
+	private static void quickSortHelper(int a, int b, int[] ints) {
+		if (b <= a)
 			return;
-		var piv = ints[pivot];
-		int i = a - 1, j = a - 1;
-		while (++j < b)
-			if (ints[j] < piv) {
-				var temp = ints[++i];
-				ints[i] = ints[j];
-				ints[j] = temp;
+		var piv = ints[(a + b) / 2];
+		int i = a, j = b;
+		while (i <= j) {
+			while (ints[i] < piv)
+				i++;
+			while (ints[j] > piv)
+				j--;
+			if (i <= j) {
+				swap(i, j, ints);
+				i++;
+				j--;
 			}
-		var temp = ints[++i];
-		ints[pivot] = temp;
-		ints[i] = piv;
-		quickSortHelper((pivot + a) / 2, a, pivot, ints);
-		quickSortHelper((pivot + b + 1) / 2, pivot + 1, b, ints);
+		}
+		if (j > a)
+			quickSortHelper(a, j, ints);
+		if (i < b)
+			quickSortHelper(i, b, ints);
 	}
+
+	// swaps index a to index b in array ints
+	private static void swap(int a, int b, int[] ints) {
+		var temp = ints[a];
+		ints[a] = ints[b];
+		ints[b] = temp;
+	}
+
 
 	// Prints a sequence of moves (one on each line)
 	// to complete a Towers of Hanoi problem:
@@ -188,24 +203,29 @@ public class Recursion {
 		ZERO, ONE, TWO;
 
 		public String toString() {
-			return switch (this) {
-				case ZERO -> "0";
-				case ONE -> "1";
-				case TWO -> "2";
-			};
+			switch (this) {
+				case ZERO:
+					return "0";
+				case ONE:
+					return "1";
+				case TWO:
+					return "2";
+			}
+			return "";
 		}
 	}
 
 	public static void solveHanoi(int startingDisks) {
-		solveHanoiHelper(startingDisks, Peg.ZERO, Peg.ONE, Peg.TWO, startingDisks);
+		solveHanoiHelper(startingDisks, Peg.ZERO, Peg.TWO, Peg.ONE);
 	}
 
-	private static void solveHanoiHelper(int curr, Peg p0, Peg p1, Peg p2, int startingDisks) {
+	// prints the statements that would move curr disks from p0 to p1
+	private static void solveHanoiHelper(int curr, Peg p0, Peg p1, Peg p2) {
 		if (curr == 0)
 			return;
-		solveHanoiHelper(curr - 1, p0, p2, p1, startingDisks);
-		System.out.println(p0 + "->" + p1);
-		solveHanoiHelper(curr - 1, p2, p1, p0, startingDisks);
+		solveHanoiHelper(curr - 1, p0, p2, p1);
+		System.out.println(p0 + " -> " + p1);
+		solveHanoiHelper(curr - 1, p2, p1, p0);
 	}
 
 	// You are partaking in a scavenger hunt!
