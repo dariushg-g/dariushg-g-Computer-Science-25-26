@@ -1,0 +1,172 @@
+!SESSION 2025-12-03 13:35:03.956 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=25.0.1
+java.vendor=Homebrew
+BootLoader constants: OS=macosx, ARCH=aarch64, WS=cocoa, NL=en_US
+Command-line arguments:  -data ~/.cache/jdtls/workspace
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:04.956
+!MESSAGE class org.eclipse.jdt.ls.core.internal.JavaLanguageServerPlugin is started
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:04.986
+!MESSAGE Started org.eclipse.buildship.core 21ms
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:04.986
+!MESSAGE Started org.eclipse.m2e.core 0ms
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.063
+!MESSAGE Main thread is waiting
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.085
+!MESSAGE >> initialize
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.086
+!MESSAGE Initializing Java Language Server 1.52.0.202510301627
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.382
+!MESSAGE ProjectRegistryRefreshJob finished 396ms
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.414
+!MESSAGE Static Commands: []
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.415
+!MESSAGE Non-Static Commands: [java.project.import, java.project.changeImportedProjects, java.navigate.openTypeHierarchy, java.project.resolveStackTraceLocation, java.edit.handlePasteEvent, java.edit.stringFormatting, java.project.getSettings, java.project.resolveWorkspaceSymbol, java.project.upgradeGradle, java.project.createModuleInfo, java.vm.getAllInstalls, java.edit.organizeImports, java.project.refreshDiagnostics, java.project.removeFromSourcePath, java.project.listSourcePaths, java.project.updateSettings, java.project.getAll, java.reloadBundles, java.project.isTestFile, java.project.resolveText, java.project.getClasspaths, java.navigate.resolveTypeHierarchy, java.getTroubleshootingInfo, java.edit.smartSemicolonDetection, java.project.updateSourceAttachment, java.project.updateClassPaths, java.decompile, java.protobuf.generateSources, java.project.resolveSourceAttachment, java.project.updateJdk, java.project.addToSourcePath, java.completion.onDidSelect]
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.425
+!MESSAGE >> initialized
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.436
+!MESSAGE RepositoryRegistryUpdateJob finished 13ms
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.492
+!MESSAGE Workspace initialized in 69ms
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.501
+!MESSAGE >> initialization job finished
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.512
+!MESSAGE Try to create an invisible project for the workspace /Users/dariushghassemieh/Documents/DnD
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.513
+!MESSAGE Creating the Java project DnD_ee1041d8
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.516
+!MESSAGE >> build jobs finished
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.516
+!MESSAGE >> registerWatchers'
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.517
+!MESSAGE >> registerFeature 'workspace/didChangeWatchedFiles'
+
+!ENTRY org.eclipse.jdt.ls.core 4 0 2025-12-03 13:35:05.520
+!MESSAGE Project 'DnD_ee1041d8' is not open.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException(/DnD_ee1041d8)[372]: java.lang.Exception: Project 'DnD_ee1041d8' is not open.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Project.checkAccessible(Project.java:192)
+	at org.eclipse.core.internal.resources.Resource.findMarkers(Resource.java:1064)
+	at org.eclipse.jdt.ls.core.internal.handlers.WorkspaceDiagnosticsHandler.getProblemMarkers(WorkspaceDiagnosticsHandler.java:274)
+	at org.eclipse.jdt.ls.core.internal.handlers.WorkspaceDiagnosticsHandler.publishDiagnostics(WorkspaceDiagnosticsHandler.java:259)
+	at org.eclipse.jdt.ls.core.internal.handlers.JDTLanguageServer$2.run(JDTLanguageServer.java:336)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.resources 4 372 2025-12-03 13:35:05.521
+!MESSAGE Project 'DnD_ee1041d8' is not open.
+!STACK 0
+java.lang.Exception: Project 'DnD_ee1041d8' is not open.
+	at org.eclipse.core.internal.resources.ResourceException.provideStackTrace(ResourceException.java:42)
+	at org.eclipse.core.internal.resources.ResourceException.<init>(ResourceException.java:38)
+	at org.eclipse.core.internal.resources.Project.checkAccessible(Project.java:192)
+	at org.eclipse.core.internal.resources.Resource.findMarkers(Resource.java:1064)
+	at org.eclipse.jdt.ls.core.internal.handlers.WorkspaceDiagnosticsHandler.getProblemMarkers(WorkspaceDiagnosticsHandler.java:274)
+	at org.eclipse.jdt.ls.core.internal.handlers.WorkspaceDiagnosticsHandler.publishDiagnostics(WorkspaceDiagnosticsHandler.java:259)
+	at org.eclipse.jdt.ls.core.internal.handlers.JDTLanguageServer$2.run(JDTLanguageServer.java:336)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.715
+!MESSAGE Default VM Install changed from  null to 1764797705711-/opt/homebrew/Cellar/openjdk/25.0.1/libexec/openjdk.jdk/Contents/Home
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.739
+!MESSAGE Finished creating the Java project DnD_ee1041d8
+
+!ENTRY org.eclipse.jdt.ls.core 4 0 2025-12-03 13:35:05.990
+!MESSAGE Failed to create the invisible project.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to create linked resource from '/Users/dariushghassemieh/Documents/DnD' to the invisible project 'DnD_ee1041d8'.
+	at org.eclipse.jdt.ls.core.internal.ProjectUtils.createInvisibleProjectIfNotExist(ProjectUtils.java:373)
+	at org.eclipse.jdt.ls.core.internal.managers.InvisibleProjectImporter.loadInvisibleProject(InvisibleProjectImporter.java:144)
+	at org.eclipse.jdt.ls.core.internal.handlers.DocumentLifeCycleHandler.resolveCompilationUnit(DocumentLifeCycleHandler.java:65)
+	at org.eclipse.jdt.ls.core.internal.handlers.BaseDocumentLifeCycleHandler.handleOpen(BaseDocumentLifeCycleHandler.java:425)
+	at org.eclipse.jdt.ls.core.internal.handlers.BaseDocumentLifeCycleHandler.lambda$0(BaseDocumentLifeCycleHandler.java:357)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2533)
+	at org.eclipse.jdt.ls.core.internal.handlers.BaseDocumentLifeCycleHandler.didOpen(BaseDocumentLifeCycleHandler.java:357)
+	at org.eclipse.jdt.ls.core.internal.handlers.JDTLanguageServer.didOpen(JDTLanguageServer.java:895)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$recursiveFindRpcMethods$0(GenericEndpoint.java:65)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.notify(GenericEndpoint.java:160)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleNotification(RemoteEndpoint.java:231)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:198)
+	at org.eclipse.jdt.ls.core.internal.ParentProcessWatcher.lambda$1(ParentProcessWatcher.java:91)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:185)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:97)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:114)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.eclipse.core.internal.resources.ResourceException: '/Users/dariushghassemieh/Documents/DnD' is not a valid location for linked resources.
+	at org.eclipse.core.internal.resources.Resource.assertLinkRequirements(Resource.java:212)
+	at org.eclipse.core.internal.resources.Resource.createLink(Resource.java:690)
+	at org.eclipse.jdt.ls.core.internal.ProjectUtils.createInvisibleProjectIfNotExist(ProjectUtils.java:357)
+	... 23 more
+!SUBENTRY 1 org.eclipse.jdt.ls.core 4 0 2025-12-03 13:35:05.990
+!MESSAGE Failed to create linked resource from '/Users/dariushghassemieh/Documents/DnD' to the invisible project 'DnD_ee1041d8'.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: '/Users/dariushghassemieh/Documents/DnD' is not a valid location for linked resources.
+	at org.eclipse.core.internal.resources.Resource.assertLinkRequirements(Resource.java:212)
+	at org.eclipse.core.internal.resources.Resource.createLink(Resource.java:690)
+	at org.eclipse.jdt.ls.core.internal.ProjectUtils.createInvisibleProjectIfNotExist(ProjectUtils.java:357)
+	at org.eclipse.jdt.ls.core.internal.managers.InvisibleProjectImporter.loadInvisibleProject(InvisibleProjectImporter.java:144)
+	at org.eclipse.jdt.ls.core.internal.handlers.DocumentLifeCycleHandler.resolveCompilationUnit(DocumentLifeCycleHandler.java:65)
+	at org.eclipse.jdt.ls.core.internal.handlers.BaseDocumentLifeCycleHandler.handleOpen(BaseDocumentLifeCycleHandler.java:425)
+	at org.eclipse.jdt.ls.core.internal.handlers.BaseDocumentLifeCycleHandler.lambda$0(BaseDocumentLifeCycleHandler.java:357)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2505)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2533)
+	at org.eclipse.jdt.ls.core.internal.handlers.BaseDocumentLifeCycleHandler.didOpen(BaseDocumentLifeCycleHandler.java:357)
+	at org.eclipse.jdt.ls.core.internal.handlers.JDTLanguageServer.didOpen(JDTLanguageServer.java:895)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$recursiveFindRpcMethods$0(GenericEndpoint.java:65)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.notify(GenericEndpoint.java:160)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleNotification(RemoteEndpoint.java:231)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:198)
+	at org.eclipse.jdt.ls.core.internal.ParentProcessWatcher.lambda$1(ParentProcessWatcher.java:91)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:185)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:97)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:114)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+!SUBENTRY 2 org.eclipse.core.resources 4 77 2025-12-03 13:35:05.990
+!MESSAGE '/Users/dariushghassemieh/Documents/DnD' is not a valid location for linked resources.
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.991
+!MESSAGE Creating the Java project jdt.ls-java-project
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:05.998
+!MESSAGE Finished creating the Java project jdt.ls-java-project
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:06.552
+!MESSAGE Reconciled 1. Took 0 ms
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:07.034
+!MESSAGE >> shutdown
+
+!ENTRY org.eclipse.jdt.ls.core 1 0 2025-12-03 13:35:07.036
+!MESSAGE >> exit
