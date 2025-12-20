@@ -4,14 +4,13 @@ import java.io.PrintStream;
 /**
  * Small manual tester for the solution file-system implementation.
  *
- * This does NOT use JUnit. It just runs a few operations and prints out
- * what it's doing plus the observed behavior.or
+ * This does NOT use JUnit. It just runs a few operations and prints out what it's doing plus the
+ * observed behavior.or
  *
- * And also assumes (based on our design):
- *  - FileSystemTree#getRoot() returns a non-null FolderNode
- *  - FolderNode has addFolder(String) and addFile(String, int) that return boolean
- *  - FileSystemNode has getDepth(), getHeight(), getSize(), getTotalNodeCount()
- *  - Navigator has processUserInputString(String) which prints results to System.out
+ * And also assumes (based on our design): - FileSystemTree#getRoot() returns a non-null FolderNode
+ * - FolderNode has addFolder(String) and addFile(String, int) that return boolean - FileSystemNode
+ * has getDepth(), getHeight(), getSize(), getTotalNodeCount() - Navigator has
+ * processUserInputString(String) which prints results to System.out
  */
 public class FileSystemTester {
 
@@ -22,7 +21,8 @@ public class FileSystemTester {
         FolderNode root = tree.getRoot();
 
         if (root == null) {
-            System.out.println("[FAIL] Root is null. FileSystemTree.getRoot() must return a non-null root folder.");
+            System.out.println(
+                    "[FAIL] Root is null. FileSystemTree.getRoot() must return a non-null root folder.");
             return;
         } else {
             System.out.println("[PASS] Root is non-null.");
@@ -34,6 +34,7 @@ public class FileSystemTester {
         // 2. Build a small structure under root
         System.out.println("\n=== Building tree structure under root ===");
         boolean addedDocs = root.addFolder("docs");
+        ((FolderNode) root.getChildByName("docs")).addFolder("CompSci");
         boolean addedSrc = root.addFolder("src");
         boolean addedMainJava = root.addFile("main.java", 120);
         boolean addedReadme = root.addFile("README.md", 80);
@@ -42,5 +43,10 @@ public class FileSystemTester {
         int heightRoot = root.getHeight();
         int sizeRoot = root.getSize();
         int totalNodesRoot = root.getTotalNodeCount();
+
+
+        var navigator = new Navigator(tree);
+        navigator.run();
+
     }
 }

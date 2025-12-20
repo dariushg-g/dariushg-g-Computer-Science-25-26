@@ -52,7 +52,7 @@ public class FolderNode extends FileSystemNode {
         for (var node : children)
             if (node.getName() == fileName)
                 return false;
-        children.add(new FileNode(this, fileName, size));
+        children.add(new FileNode(fileName, this, size));
         return true;
     }
 
@@ -67,7 +67,7 @@ public class FolderNode extends FileSystemNode {
                 return false;
         children.add(new FolderNode(folderName, this));
         return true;
-    } 
+    }
 
     /**
      * Searches this directory and all of its descendants for nodes whose name matches the input.
@@ -78,7 +78,8 @@ public class FolderNode extends FileSystemNode {
             if (searchName == node.getName())
                 return true;
             else if (node.getClass() == FolderNode.class)
-                ((FolderNode) node).containsNameRecursive(searchName);
+                if (((FolderNode) node).containsNameRecursive(searchName))
+                    return true;
         return false;
     }
 
@@ -86,7 +87,7 @@ public class FolderNode extends FileSystemNode {
     public int getHeight() {
         var max = 0;
         for (var node : children)
-            max = Math.max(node.getHeight(), max);
+            max = Math.max(node.getHeight() + 1, max);
         return max;
     }
 
@@ -100,6 +101,9 @@ public class FolderNode extends FileSystemNode {
 
     @Override
     public int getTotalNodeCount() {
-        return 0;
+        var loc = 1;
+        for (var child : children)
+            loc += child.getTotalNodeCount();
+        return loc;
     }
 }

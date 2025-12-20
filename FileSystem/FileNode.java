@@ -9,7 +9,7 @@ public class FileNode extends FileSystemNode {
     /**
      * Constructs a file with a given parent, name, and size in bytes (or units).
      */
-    public FileNode(FolderNode parent, String name, int size) {
+    public FileNode(String name, FolderNode parent, int size) {
         super(name, parent);
         this.size = size;
     }
@@ -35,12 +35,12 @@ public class FileNode extends FileSystemNode {
     @Override
     public int getSize() {
         // The total contribution of a file is its own size.
-        return 0;
+        return this.size;
     }
 
     @Override
     public int getTotalNodeCount() {
         // A single file contributes exactly one node.
-        return 0;
+        return 1;
     }
 }

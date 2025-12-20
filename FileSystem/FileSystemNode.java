@@ -66,6 +66,9 @@ public abstract class FileSystemNode {
      */
     @Override
     public String toString() {
+        if (this.getParent() == null) {
+            return "/";
+        }
         var str = new StringBuilder();
         var curr = this;
         do {
