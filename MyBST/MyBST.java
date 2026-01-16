@@ -38,25 +38,37 @@ public class MyBST<E extends Comparable<E>> {
 	// Adds value to this BST, unless this tree already holds value.
 	// Returns true if value has been added; otherwise returns false.
 	public boolean add(E value) {
+		if (this.root == null) {
+			this.root = new BinaryNode<>(value);
+			return true;
+		}
 		var curr = this.root;
 
-		while (!value.equals(curr.getValue())) {
-			if (value.compareTo(curr.getValue()) > 0) {
+		while (true) {
+			if (curr.getValue().compareTo(value) < 0) {
 				if (!curr.hasRight()) {
-					curr.setRight(new BinaryNode<>(value));
+					var new_node = new BinaryNode<>(value);
+					curr.setRight(new_node);
+					new_node.setParent(curr);
+					new_node.setHeight(0);
 					return true;
 				}
 				curr = curr.getRight();
-			} else {
+				continue;
+			}
+			if (curr.getValue().compareTo(value) > 0) {
 				if (!curr.hasLeft()) {
-					curr.setLeft(new BinaryNode<>(value));
+					var new_node = new BinaryNode<>(value);
+					curr.setLeft(new_node);
+					new_node.setParent(curr);
+					new_node.setHeight(0);
 					return true;
 				}
 				curr = curr.getLeft();
+				continue;
 			}
+			return false;
 		}
-
-		return false;
 	}
 
 	// Removes value from this BST. Returns true if value has been
@@ -65,25 +77,68 @@ public class MyBST<E extends Comparable<E>> {
 	// largest node in the right subtree
 	public boolean remove(E value) {
 		var curr = this.root;
-
 		while (curr != null) {
-			if (curr.getValue().equals(value)) {
-				var right_node_val = curr.getRight().getValue();
-				curr.setValue(right_node_val);
-				curr.setLeft(null);
-				curr.setRight(null);
-				return true;
-			}
-
-			if (value.compareTo(curr.getValue()) > 0) {
-				curr = curr.getRight();
-			} else {
+			int cmp = value.compareTo(curr.getValue());
+			if (cmp < 0)
 				curr = curr.getLeft();
-			}
+			else if (cmp > 0)
+				curr = curr.getRight();
+			else
+				break;
 		}
 
-		return false;
+
+		if (curr == null)
+			return false;
+
+		if (curr.isLeaf()) {
+			var cpm = curr.getValue().compareTo(curr.getParent().getValue());
+			if (cpm > 0)
+				curr.getParent().setRight(null);
+			else
+				curr.getParent().setLeft(null);
+			return true;
+		}
+
+		var to_replace = curr;
+
+		to_replace = to_replace.getLeft();
+		if (to_replace == null) {
+			replace_node(curr, curr.getRight());
+			return true;
+		}
+
+		while (to_replace.hasRight())
+			to_replace = to_replace.getRight();
+
+		var value_for_replace = to_replace.getValue();
+		var cpm = to_replace.getValue().compareTo(to_replace.getParent().getValue());
+			if (cpm > 0)
+				to_replace.getParent().setRight(null);
+			else
+				to_replace.getParent().setLeft(null);
+		curr.setValue(value_for_replace);
+
+		return true;
 	}
+
+	private void replace_node(BinaryNode<E> replaced, BinaryNode<E> node) {
+		if (replaced.equals(this.root)) {
+			this.root = node;
+			if (node != null)
+				node.setParent(null);
+			return;
+		}
+		var cmp = replaced.getValue().compareTo(replaced.getParent().getValue());
+		if (cmp > 0) {
+			replaced.getParent().setRight(node);
+		} else {
+			replaced.getParent().setLeft(node);
+		}
+		if (node != null)
+			node.setParent(replaced.getParent());
+	}
+
 
 	// Returns the minimum in the tree
 	public E min() {
@@ -106,12 +161,18 @@ public class MyBST<E extends Comparable<E>> {
 	// Returns a bracket-surrounded, comma separated list of the contents of the nodes, in order
 	// e.g. [Apple, Cranberry, Durian, Mango]
 	public String toString() {
-		return "";
+		var builder = new StringBuilder();
+		builder.append("[");
+		to_string_helper(root, builder);
+		return builder.delete(builder.length() - 2, builder.length()).toString() + "]";
 	}
 
-	private String to_string_helper() {
-		
-		return "";
-	}
+	private void to_string_helper(BinaryNode<E> node, StringBuilder builder) {
+		if (node == null)
+			return;
 
+		to_string_helper(node.getLeft(), builder);
+		builder.append(node.getValue().toString() + ", ");
+		to_string_helper(node.getRight(), builder);
+	}
 }
