@@ -1,5 +1,6 @@
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Optional;
 
 /**
  * Small manual tester for the solution file-system implementation.
@@ -14,7 +15,7 @@ import java.io.PrintStream;
  */
 public class FileSystemTester {
 
-    public static void main(String[] args) {
+    void main() {
 
         // 1. Construct a tree and check root
         FileSystemTree tree = new FileSystemTree();
@@ -46,7 +47,6 @@ public class FileSystemTester {
 
 
         var navigator = new Navigator(tree);
-        navigator.run();
-
+        // navigator.run();
     }
 }

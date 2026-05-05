@@ -121,6 +121,7 @@ public class Recursion {
 		mergeSortHelper(0, ints.length - 1, ints);
 	}
 
+	// merges subarray a to (a + b) / 2 and (a+b)/2 + 1 to b
 	private static void mergeSortHelper(int a, int b, int ints[]) {
 		if (a < b) {
 			int m = (a + b) / 2;

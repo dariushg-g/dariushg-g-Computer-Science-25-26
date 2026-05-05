@@ -86,39 +86,23 @@ public class MyBST<E extends Comparable<E>> {
 			else
 				break;
 		}
-
-
+		
 		if (curr == null)
 			return false;
 
-		if (curr.isLeaf()) {
-			var cpm = curr.getValue().compareTo(curr.getParent().getValue());
-			if (cpm > 0)
-				curr.getParent().setRight(null);
-			else
-				curr.getParent().setLeft(null);
+		if (curr.getLeft() == null || curr.getRight() == null) {
+			BinaryNode<E> child = (curr.getLeft() != null) ? curr.getLeft() : curr.getRight();
+			replace_node(curr, child);
 			return true;
 		}
 
-		var to_replace = curr;
-
-		to_replace = to_replace.getLeft();
-		if (to_replace == null) {
-			replace_node(curr, curr.getRight());
-			return true;
-		}
-
-		while (to_replace.hasRight())
+		BinaryNode<E> to_replace = curr.getLeft();
+		while (to_replace.getRight() != null)
 			to_replace = to_replace.getRight();
 
-		var value_for_replace = to_replace.getValue();
-		var cpm = to_replace.getValue().compareTo(to_replace.getParent().getValue());
-			if (cpm > 0)
-				to_replace.getParent().setRight(null);
-			else
-				to_replace.getParent().setLeft(null);
-		curr.setValue(value_for_replace);
+		curr.setValue(to_replace.getValue());
 
+		replace_node(to_replace, to_replace.getLeft());
 		return true;
 	}
 

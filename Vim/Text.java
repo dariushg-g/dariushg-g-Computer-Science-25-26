@@ -37,13 +37,19 @@ public class Text {
     // Move cursor to start of line
     // (each '\n' newline is the last char in its line)
     public void moveCursorToStartOfLine() {
-        while (this.cursor != this.SENTINEL
-                && this.cursor.getLetter() != '\n')
+        if (this.cursor.getLetter() == '\n' && this.cursor.getNext() != this.SENTINEL)
+            this.cursor = this.cursor.getNext();
+        while (this.cursor.getPrevious() != this.SENTINEL
+                && this.cursor.getPrevious().getLetter() != '\n')
             this.cursor = this.cursor.getPrevious();
     }
 
     // Move cursor to end of line (i.e. to the newline char in its line)
     public void moveCursorToEndOfLine() {
+        if (this.cursor == this.SENTINEL)
+            return;
+        if (this.cursor.getLetter() == '\n' && this.cursor.getPrevious() != this.SENTINEL)
+            this.cursor = this.cursor.getPrevious();
         while (this.cursor != this.SENTINEL && this.cursor.getLetter() != '\n')
             this.cursor = this.cursor.getNext();
     }
@@ -67,7 +73,7 @@ public class Text {
         inst.setPrevious(prev);
         inst.setNext(this.cursor);
         cursor.setPrevious(inst);
-        this.cursor = prev;
+        this.cursor = inst;
     }
 
     // Insert the String of chars before cursor
@@ -95,7 +101,7 @@ public class Text {
         inst.setPrevious(this.cursor);
         inst.setNext(post);
         post.setPrevious(inst);
-        this.cursor = post;
+        this.cursor = inst;
     }
 
     // Insert a String of chars after cursor
@@ -111,7 +117,7 @@ public class Text {
             next.setPrevious(inst);
             prev = inst;
         }
-        this.cursor = next;
+        this.cursor = prev;
     }
 
     // Replace the char under the cursor with the given char
@@ -153,27 +159,37 @@ public class Text {
 
     // Delete character under cursor; cursor moves to next char
     public void deleteUnderCursor() {
-        this.cursor.getPrevious().setNext(this.cursor.getNext());
+        if (this.cursor == this.SENTINEL)
+            return;
+        CharNode prev = this.cursor.getPrevious();
+        CharNode next = this.cursor.getNext();
+        prev.setNext(next);
+        next.setPrevious(prev);
+        this.cursor = next;
     }
 
     // Deletes the remainder of the line (except for the newline),
     // starting with the current cursor position
     // Cursor is now at the newline character
     public void deleteRemainderOfLine() {
-        CharNode node = this.cursor;
-        while (this.cursor.getLetter() != '\n') {
-            node = this.cursor.getNext();
+        if (this.cursor == this.SENTINEL)
+            return;
+        while (this.cursor != this.SENTINEL && this.cursor.getLetter() != '\n') {
+            this.deleteUnderCursor();
         }
-        CharNode newNode = new CharNode('\n');
-        this.cursor.setNext(newNode);
-        newNode.setNext(node.getNext());
+
     }
 
     // Delete entire current line (including the newline)
     // Cursor moves to beginning of next line
     public void deleteEntireLine() {
         this.moveCursorToStartOfLine();
-        this.deleteRemainderOfLine();
+
+        while (this.cursor != this.SENTINEL && this.cursor.getLetter() != '\n')
+            deleteUnderCursor();
+        if (this.cursor != this.SENTINEL && this.cursor.getLetter() == '\n')
+            deleteUnderCursor();
+
     }
 
     // Yank/cut the entire current line into clipboard
@@ -188,6 +204,7 @@ public class Text {
         while (this.cursor.getLetter() != '\n') {
             this.cursor = this.cursor.getNext();
             node.setNext(this.cursor);
+            node.setPrevious(this.cursor.getPrevious());
         }
     }
 

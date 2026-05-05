@@ -16,10 +16,11 @@ public class SinglyLinkedList<E> {
 	// Constructor: creates a list that contains
 	// all elements from the array values, in the same order
 	public SinglyLinkedList(E[] values) {
-		for (int i = 1; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++) {
 			this.add(values[i]);
 		}
 	}
+	
 
 	public ListNode<E> getHead() {
 		return head;
@@ -54,7 +55,7 @@ public class SinglyLinkedList<E> {
 	public int indexOf(E obj) {
 		int count = 0;
 		for (ListNode<E> j = this.head; j != null; j = j.getNext()) {
-			if (j.getValue().equals(obj))
+			if (j.getValue() == null ? j.getValue() == obj : j.getValue().equals(obj))
 				return count;
 			count++;
 		}
@@ -65,9 +66,9 @@ public class SinglyLinkedList<E> {
 	// otherwise returns false.
 	public boolean add(E obj) {
 		ListNode<E> node = new ListNode<E>(obj);
-		if (head == null) {
-			head = node;
-			tail = node;
+		if (this.nodeCount == 0) {
+			this.head = node;
+			this.tail = node;
 		} else {
 			this.tail.setNext(node);
 			this.tail = node;
@@ -79,23 +80,18 @@ public class SinglyLinkedList<E> {
 	// Removes the first element that is equal to obj, if any.
 	// Returns true if successful; otherwise returns false.
 	public boolean remove(E obj) {
-		ListNode<E> node = this.head;
 		ListNode<E> prev = null;
-		while (node != null) {
-			if (node.getValue().equals(obj)) {
-				if (prev == null)
-					this.head = node.getNext();
-				else
-					prev.setNext(node.getNext());
-				if (node.equals(tail))
-					tail = prev;
-				nodeCount--;
+		for (ListNode<E> j = this.head; j != null; j = j.getNext()) {
+			if (obj == null ? j.getValue() == null : j.getValue().equals(obj)) {
+				if (prev == null) {
+					this.head = this.head.getNext();
+				} else {
+					prev.setNext(j.getNext());
+				}
 				return true;
 			}
-			prev = node;
-			node = node.getNext();
+			prev = j;
 		}
-
 		return false;
 	}
 
@@ -146,31 +142,30 @@ public class SinglyLinkedList<E> {
 	// Inserts obj to become the i-th element. Increments the size
 	// of the list by one.
 	public void add(int i, E obj) {
-		if (i == 0) {
+		if (i == this.nodeCount) {
+			this.add(obj);
+			return;
+		} else if (i == 0) {
 			ListNode<E> old_head = this.head;
 			this.head = new ListNode<E>(obj);
 			this.head.setNext(old_head);
-			if (this.nodeCount == 0)
-				this.tail = this.head;
-		} else if (i == this.nodeCount) {
-			this.add(obj);
+			this.nodeCount++;
 		} else if (i >= this.nodeCount || i < 0)
 			throw new IndexOutOfBoundsException();
-
-		int count = 0;
-		for (ListNode<E> j = this.head; j != null; j = j.getNext()) {
-			if (count == i - 1) {
-				ListNode<E> new_node = new ListNode<E>(obj);
-				ListNode<E> to_point = j.getNext();
-				j.setNext(new_node);
-				new_node.setNext(to_point);
-				this.nodeCount++;
-				break;
+		else {
+			ListNode<E> prev = null;
+			int count = 0;
+			for (ListNode<E> j = this.head; j != null; j = j.getNext()) {
+				if (count == i) {
+					ListNode<E> add = new ListNode<E>(obj);
+					prev.setNext(add);
+					add.setNext(j);
+				}
+				prev = j;
+				count++;
 			}
-			count++;
+			this.nodeCount++;
 		}
-
-		this.nodeCount++;
 	}
 
 	// Removes the i-th element and returns its value.
@@ -184,10 +179,20 @@ public class SinglyLinkedList<E> {
 		for (ListNode<E> node = this.head; node != null; node = node.getNext()) {
 			if (count == i) {
 				if (prev == null) {
-					this.head = node.getNext();
-					return this.head.getValue();
+					E val = this.head.getValue();
+					this.head = this.head == null ? null : this.head.getNext();
+					this.nodeCount--;
+					return val;
+				}
+				if (i == this.nodeCount - 1) {
+					E val = this.tail.getValue();
+					this.tail = prev;
+					prev.setNext(null);
+					this.nodeCount--;
+					return val;
 				}
 				prev.setNext(node.getNext());
+				this.nodeCount--;
 				return node.getValue();
 			}
 			prev = node;
@@ -196,16 +201,18 @@ public class SinglyLinkedList<E> {
 
 
 		return null;
+
 	}
 
 	// Returns a string representation of this list exactly like that for MyArrayList.
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append('[');
-		for (ListNode<E> node = this.head; node != null; node = node.getNext()) {
-			str.append(node.getValue().toString() + ", ");
+		if (this.head != null) {
+			for (ListNode<E> node = this.head; node != null; node = node.getNext())
+				str.append(node.getValue() == null ? "null, " : node.getValue().toString() + ", ");
+			str.delete(str.length() - 2, str.length());
 		}
-		str.delete(str.length() - 2, str.length());
 		str.append(']');
 		return str.toString();
 	}

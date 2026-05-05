@@ -57,6 +57,7 @@ public class Vim {
                 text.moveCursorToStartOfLine();
                 text.moveCursorLeft();
                 text.moveCursorToStartOfLine();
+                break;
             case '0':
                 // Move cursor to start of line
                 // (each '\n' newline is the last char in its line
@@ -87,9 +88,12 @@ public class Vim {
             case 'o':
                 // Create new line after current line, and add text there until '^' is input
                 // Cursor moves to end of new text
+
                 text.moveCursorToEndOfLine();
-                text.insertAfterCursor('\n');
+                text.insertBeforeCursor('\n');
                 text.moveCursorRight();
+                text.moveCursorToStartOfLine();
+
                 editMode = 'o';
                 break;
             case 'O':
@@ -111,7 +115,6 @@ public class Vim {
                 break;
             case 'x':
                 // Delete character under cursor; cursor moves to next char
-                editMode = 'x';
                 text.deleteUnderCursor();
                 break;
             case 'D':

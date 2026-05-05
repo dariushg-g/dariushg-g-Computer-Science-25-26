@@ -148,7 +148,7 @@ public class Navigator {
      * Creates a new directory inside the current directory using the provided name.
      */
     private void mkdir(String[] args) {
-        if (args.length == 0)
+        if (args.length == 0 || args.length > 1)
             return;
         var directory = args[0];
         var dirs = new ArrayList<String>();
@@ -187,7 +187,7 @@ public class Navigator {
             System.out.println("expected 2 arguments");
             return;
         }
-        
+
         var directory = args[0];
         var dirs = new ArrayList<String>();
         var tempDir = this.currentDirectory;

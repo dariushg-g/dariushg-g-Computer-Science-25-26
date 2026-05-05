@@ -1,12 +1,27 @@
 
 public class SinglyLinkedListTester {
     public static void main(String[] args) {
-        SinglyLinkedList<String> linked_list = new SinglyLinkedList<>();
-        linked_list.add("hello");
-        linked_list.add("world");
+        SinglyLinkedList<String> mylist = new SinglyLinkedList<String>();
+        SinglyLinkedList<String> list = new SinglyLinkedList<String>();
 
 
-        System.out.println(linked_list.toString());
-        System.out.println(linked_list.indexOf("world"));
+        mylist.add(0, "B");
+        mylist.add(1, "C");
+        mylist.add(2, "D");
+        mylist.add(3, "F");
+        mylist.add(4, "G");
+        mylist.add(3, null);
+
+        list.add("B");
+        list.add("C");
+        list.add("D");
+        list.add("F");
+        list.add("G");
+        list.add(3, null);
+
+        System.out.println(list.size());
+        System.out.println(mylist.size());
+
+
     }
 }
